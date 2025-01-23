@@ -18,7 +18,7 @@ class DefaultVideos
         return Video::create([
             'title' => 'Default Title',
             'description' => 'Default Description',
-            'url' => 'https://www.youtube.com/embed/7GG7j_w0uE8',
+            'url' => 'https://www.youtube.com/embed/nOcyzF01sfY',
             'published_at' => Carbon::now(),
             'previous' => null,
             'next' => null,

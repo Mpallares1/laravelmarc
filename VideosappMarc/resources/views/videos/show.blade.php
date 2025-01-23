@@ -23,6 +23,5 @@
         <p class="mt-6 text-lg" style="color: #ccc;">
             {{ $video->description }}
         </p>
-
     </div>
 @endsection

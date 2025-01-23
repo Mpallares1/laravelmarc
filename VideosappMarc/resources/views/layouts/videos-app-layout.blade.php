@@ -55,7 +55,6 @@
         }
 
 
-
         .video-container::before {
             content: '';
             position: absolute;
@@ -78,6 +77,31 @@
             height: 100%;
             overflow: hidden;
             border-radius: 8px;
+        }
+
+         .video-container {
+             position: relative;
+             width: 80vw;
+             max-width: 1000px;
+             aspect-ratio: 16 / 9;
+             margin: 0 auto;
+         }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         video {
