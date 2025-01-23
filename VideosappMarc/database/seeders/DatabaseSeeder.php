@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\CreateUsers;
+use App\Helpers\DefaultVideos;
+use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,9 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            UserSeeder::class,
-            VideoSeeder::class,
-        ]);
+
+
+        User::truncate();
+        Video::truncate();
+
+        CreateUsers::creacioUsuariDefecte();
+
+        DefaultVideos::createDefaultVideo();
+
+
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-
 namespace Tests\Unit;
 
 use App\Helpers\CreateUsers;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -39,7 +39,6 @@ class CreateUserTest extends TestCase
         $this->assertCount(1, $user->ownedTeams);
     }
 
-
     public function testUserHasCurrentTeamId()
     {
         $user = User::factory()->create([
@@ -50,6 +49,3 @@ class CreateUserTest extends TestCase
         $this->assertEquals(config('team.default_team_id'), $user->current_team_id);
     }
 }
-// Comprovar que la contra esta encriptada
-//$this->assertNotEquals('contra', $user->password);
-//$this->assertNotEquals('contra', $teacher->password);

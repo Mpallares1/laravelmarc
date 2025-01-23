@@ -15,14 +15,14 @@ class DefaultVideos
      */
     public static function createDefaultVideo(array $attributes = [])
     {
-        return Video::create(array_merge([
+        return Video::create([
             'title' => 'Default Title',
             'description' => 'Default Description',
-            'url' => 'https://www.youtube.com/watch?v=default',
+            'url' => 'https://www.youtube.com/embed/7GG7j_w0uE8',
             'published_at' => Carbon::now(),
             'previous' => null,
             'next' => null,
             'series_id' => 1,
-        ], $attributes));
+        ], $attributes);
     }
 }

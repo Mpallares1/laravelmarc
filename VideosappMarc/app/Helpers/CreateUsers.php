@@ -8,9 +8,13 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class CreateUsers
 {
+    /**
+     * @throws ValidationException
+     */
     public function creacioUsuariDefecte(array $user)
     {
         Validator::make($user, [

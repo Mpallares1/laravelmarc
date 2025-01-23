@@ -4,30 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class VideosController extends Controller
 {
     /**
-     * Muestra el video especificado.
+     * Display the specified video.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): Response
     {
         $video = Video::findOrFail($id);
-        return view('videos.show', compact('video'));
+        return response()->view('videos.show', compact('video'));
     }
 
     /**
-     * Muestra los videos probados por un usuario específico.
+     * Display the videos tested by a specific user.
      *
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
-    public function testedBy($userId)
+    public function testedBy($userId): Response
     {
         $videos = Video::where('tested_by', $userId)->get();
-        return view('videos.tested_by', compact('videos'));
+        return response()->view('videos.tested_by', compact('videos'));
     }
 }
