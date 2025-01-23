@@ -15,7 +15,7 @@ class CreateUsers
     /**
      * @throws ValidationException
      */
-    public function creacioUsuariDefecte(array $user)
+    public static function creacioUsuariDefecte(array $user)
     {
         Validator::make($user, [
             'name' => ['required', 'string', 'max:255'],
@@ -29,7 +29,6 @@ class CreateUsers
                 'email' => $user['email'],
                 'password' => Hash::make($user['password']),
             ]), function (User $user) {
-                $this->creacioTeam($user);
             });
         });
     }

@@ -15,15 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         User::truncate();
         Video::truncate();
 
-        CreateUsers::creacioUsuariDefecte();
+        // Example user data
+        $user = [
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => 'password123',
+        ];
+
+        // Call the method with the required argument
+        CreateUsers::creacioUsuariDefecte($user);
 
         DefaultVideos::createDefaultVideo();
-
-
     }
 }
