@@ -23,6 +23,7 @@ class Team extends JetstreamTeam
         'personal_team',
     ];
 
+
     /**
      * The event map for the model.
      *
@@ -45,4 +46,9 @@ class Team extends JetstreamTeam
             'personal_team' => 'boolean',
         ];
     }
+
+
+
+
+
 }

@@ -38,8 +38,18 @@ class CreateUserTest extends TestCase
         $this->assertTrue(\Hash::check(config('defaultusers.professor.password'), $user->password));
         $this->assertCount(1, $user->ownedTeams);
     }
-}
 
+
+    public function testUserHasCurrentTeamId()
+    {
+        $user = User::factory()->create([
+            'current_team_id' => config('team.default_team_id'),
+        ]);
+
+        $this->assertNotNull($user->current_team_id);
+        $this->assertEquals(config('team.default_team_id'), $user->current_team_id);
+    }
+}
 // Comprovar que la contra esta encriptada
 //$this->assertNotEquals('contra', $user->password);
 //$this->assertNotEquals('contra', $teacher->password);
