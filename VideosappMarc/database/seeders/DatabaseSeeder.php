@@ -18,16 +18,20 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Video::truncate();
 
-        // Example user data
-        $user = [
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'password123',
-        ];
+        // Crear permisos
+        CreateUsers::createPermissions();
 
-        // Call the method with the required argument
-        CreateUsers::creacioUsuariDefecte($user);
+        // Crear usuarios por defecto
+        $regularUser = CreateUsers::createRegularUser();
+        $videoManagerUser = CreateUsers::createVideoManagerUser();
+        $superAdminUser = CreateUsers::createSuperAdminUser();
 
+        // Asignar roles a los usuarios
+        $regularUser->assignRole('Regular User');
+        $videoManagerUser->assignRole('Video Manager');
+        $superAdminUser->assignRole('Super Admin');
+
+        // Crear un video por defecto
         DefaultVideos::createDefaultVideo();
     }
 }

@@ -10,6 +10,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,7 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     protected $fillable = [
         'name',
@@ -31,27 +33,45 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'super_admin', // Ocultar el campo super_admin
     ];
 
     protected $appends = [
         'profile_photo_url',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
-     * Get the teams owned by the user.
+     * Obtiene los equipos propiedad del usuario.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ownedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'user_id');
+    }
+
+    /**
+     * Obtiene las pruebas asociadas con el usuario.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function testedBy(): HasMany
+    {
+        return $this->hasMany(Test::class, 'user_id');
+    }
+
+    /**
+     * Verifica si el usuario es un super administrador.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->super_admin;
     }
 }
