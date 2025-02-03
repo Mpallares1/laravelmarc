@@ -17,3 +17,21 @@ En el segon sprint, vam ampliar les funcionalitats del projecte:
 - Creació de les vistes per a la visualització de vídeos.
 - Desenvolupament de proves unitàries i funcionals per assegurar la qualitat del codi.
 - Optimització del rendiment i millores en la interfície d'usuari.
+
+
+## Sprint 3
+
+En el tercer sprint, hem realitzat les següents tasques:
+
+- **Gestió de Vídeos**:
+    - S'ha creat el controlador `VideosManageController`.
+    - S'han implementat les proves `VideosManageControllerTest` per verificar els permisos de gestió de vídeos.
+    - S'han afegit proves per a la visualització de vídeos en `VideosTest`.
+
+- **Usuaris i Rols**:
+    - S'han creat els rols `Super Admin`, `Video Manager` i `Regular User`.
+    - S'han assignat els permisos corresponents a cada rol.
+    - S'ha implementat la prova `UserTest` per verificar la funció `isSuperAdmin()`.
+
+- **Personalització de Stubs**:
+    - S'han publicat i personalitzat els stubs de Laravel per adaptar-los a les necessitats del projecte.

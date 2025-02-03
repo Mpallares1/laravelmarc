@@ -15,7 +15,7 @@ class DefaultVideos
      */
     public static function createDefaultVideo(array $attributes = [])
     {
-        return Video::create([
+        $defaultAttributes = [
             'title' => 'Default Title',
             'description' => 'Default Description',
             'url' => 'https://www.youtube.com/embed/_qGbhF50Di0',
@@ -23,6 +23,10 @@ class DefaultVideos
             'previous' => null,
             'next' => null,
             'series_id' => 1,
-        ], $attributes);
+        ];
+
+        $attributes = array_merge($defaultAttributes, $attributes);
+
+        return Video::create($attributes);
     }
 }
