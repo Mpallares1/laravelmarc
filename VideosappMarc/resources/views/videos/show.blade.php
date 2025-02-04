@@ -23,5 +23,9 @@
         <p class="mt-6 text-lg" style="color: #ccc;">
             {{ $video->description }}
         </p>
+
+        <p class="mt-2 text-sm" style="color: #ccc;">
+            Publicado: {{ $video->published_at->format('F j, Y') }}
+        </p>
     </div>
 @endsection

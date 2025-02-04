@@ -3,17 +3,20 @@
 namespace Tests\Unit;
 
 use App\Models\Video;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class HelpersTest extends TestCase
 {
+    use RefreshDatabase;
+
     // Otros métodos de prueba
 
     /** @test */
     public function it_creates_default_video()
     {
-        // Crear un video por defecto
-        $video = Video::create([
+        // Crear un video por defecto usando la fábrica
+        $video = Video::factory()->create([
             'title' => 'Default Title',
             'description' => 'Default Description',
             'url' => 'http://example.com/default-video'

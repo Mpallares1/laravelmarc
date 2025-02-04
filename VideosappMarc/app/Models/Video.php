@@ -6,11 +6,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $url
+ * @property string $description
+ * @property \Carbon\Carbon $published_at
+ * @property int|null $previous
+ * @property int|null $next
+ * @property int $series_id
+ */
 class Video extends Model
 {
     use HasFactory;
 
-    protected $dates = ['published_at'];
+    protected $fillable = [
+        'title',
+        'url',
+        'description',
+        'published_at',
+        'previous',
+        'next',
+        'series_id',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 
     /**
      * Retorna la data en format "13 de gener de 2025".
@@ -19,7 +41,7 @@ class Video extends Model
      */
     public function getFormattedPublishedAtAttribute()
     {
-        return Carbon::parse($this->published_at)->translatedFormat('d \d\e F \d\e Y');
+        return $this->published_at->translatedFormat('d \d\e F \d\e Y');
     }
 
     /**
@@ -29,7 +51,7 @@ class Video extends Model
      */
     public function getFormattedForHumansPublishedAtAttribute()
     {
-        return Carbon::parse($this->published_at)->diffForHumans();
+        return $this->published_at->diffForHumans();
     }
 
     /**
@@ -39,6 +61,16 @@ class Video extends Model
      */
     public function getPublishedAtTimestampAttribute()
     {
-        return Carbon::parse($this->published_at)->timestamp;
+        return $this->published_at->timestamp;
+    }
+
+    /**
+     * Retorna la classe del test.
+     *
+     * @return string
+     */
+    public function testedBy()
+    {
+        return \Tests\Unit\VideosTest::class;
     }
 }

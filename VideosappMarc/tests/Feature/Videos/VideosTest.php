@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Videos;
+namespace Tests\Unit;
 
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,6 +23,7 @@ class VideosTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee($video->title);
         $response->assertSee($video->description);
+        $response->assertSee($video->published_at->translatedFormat('j \d\e F \d\e Y'));
     }
 
     /** @test */
