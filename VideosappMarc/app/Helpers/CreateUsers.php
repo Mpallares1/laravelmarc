@@ -107,22 +107,33 @@ class CreateUsers
         });
     }
 
-    public static function createPermissions()
+      static public function create_role_and_permissions()
     {
         $permissions = [
-            'create videos',
-            'edit videos',
-            'delete videos',
-            'view videos',
+            'super_admin',
+            'video_manager',
         ];
 
-        foreach ($permissions as $permission) {
-            if (!Permission::where('name', $permission)->where('guard_name', 'web')->exists()) {
-                Permission::create(['name' => $permission, 'guard_name' => 'web']);
+        foreach ($permissions as $perm) {
+            if (!Permission::where('name', $perm)->exists()) {
+                Permission::create(['name' => $perm]);
             }
         }
 
-        $role = Role::create(['name' => 'Video Manager']);
-        $role->givePermissionTo($permissions);
+        Role::firstOrCreate(['name' => 'regular_user']);
+        $adminRole = Role::firstOrCreate(['name' => 'super_admin']);
+        $videoManagerRole = Role::firstOrCreate(['name' => 'video_manager']);
+
+        if (!$adminRole->hasPermissionTo('super_admin')) {
+            $adminRole->givePermissionTo('super_admin');
+        }
+        if (!$adminRole->hasPermissionTo('video_manager')) {
+            $adminRole->givePermissionTo('video_manager');
+        }
+        if (!$videoManagerRole->hasPermissionTo('video_manager')) {
+            $videoManagerRole->givePermissionTo('video_manager');
+        }
     }
+
 }
+

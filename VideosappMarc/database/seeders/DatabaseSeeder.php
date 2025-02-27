@@ -7,7 +7,8 @@ use App\Helpers\DefaultVideos;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
-use PermissionsSeeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,9 +19,10 @@ class DatabaseSeeder extends Seeder
     {
         User::truncate();
         Video::truncate();
-
+        Role::truncate();
+        Permission::truncate();
         // Crear permisos
-        CreateUsers::createPermissions();
+        CreateUsers::create_role_and_permissions();
 
         // Crear usuarios por defecto
         $regularUser = CreateUsers::createRegularUser();
@@ -28,13 +30,13 @@ class DatabaseSeeder extends Seeder
         $superAdminUser = CreateUsers::createSuperAdminUser();
 
         // Asignar roles a los usuarios
-        $regularUser->assignRole('Regular User');
-        $videoManagerUser->assignRole('Video Manager');
-        $superAdminUser->assignRole('Super Admin');
+        $regularUser->assignRole('regular_user');
+        $videoManagerUser->assignRole('video_manager');
+        $superAdminUser->assignRole('super_admin');
 
-        $this->call(PermissionsSeeder::class);
+
 
         // Crear un video por defecto
-        DefaultVideos::createDefaultVideo();
+        DefaultVideos::createFirstVideo();
     }
 }

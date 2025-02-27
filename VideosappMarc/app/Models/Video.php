@@ -22,8 +22,8 @@ class Video extends Model
 
     protected $fillable = [
         'title',
-        'url',
         'description',
+        'url',
         'published_at',
         'previous',
         'next',
@@ -57,7 +57,21 @@ class Video extends Model
     {
         return $this->published_at->diffForHumans();
     }
+    public static function createFirstVideo(): Video
+    {
+        return Video::create([
+            'title' => 'Video title',
+            'description' => 'Video description',
+            'url' => 'https://www.youtube.com/embed/7EjnAPp2dHk',
+            'published_at' => now(),
+            'next' => null,
+            'previous' => null,
+            'series_id' => 1,
+        ]);
 
+
+        return $video;
+    }
     /**
      * Retorna el valor Unix timestamp de published_at.
      *

@@ -13,22 +13,25 @@ class DefaultVideos
      * @param array $attributes
      * @return \App\Models\Video
      */
-    public static function createDefaultVideo(array $attributes = []): Video
+    public static function createFirstVideo(): Video
     {
-        $defaultAttributes = [
-            'title' => 'DJ Tiesto',
-            'description' => 'Default Description',
-            'url' => 'https://www.youtube.com/embed/_qGbhF50Di0',
-            'published_at' => Carbon::now(),
+        $video = Video::create([
+            'title' => 'Video title',
+            'description' => 'Video description',
+            'url' => 'https://www.youtube.com/embed/7EjnAPp2dHk',
+            'published_at' => now(),
             'previous' => null,
             'next' => null,
-            'series_id' => 1,
-        ];
+            'series_id' => null,
+        ]);
 
-        $attributes = array_merge($defaultAttributes, $attributes);
+        if (!$video) {
+            throw new \Exception('Failed to create video');
+        }
 
-        return Video::create($attributes);
+        return $video;
     }
+
 
     /**
      * Crea el segundo video por defecto.
