@@ -4,31 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class VideosController extends Controller
 {
-    /**
-     * Display the specified video.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id): Response
+    public function index()
     {
-        $video = Video::findOrFail($id);
-        return response()->view('videos.show', compact('video'));
+        $videos = Video::all();
+        return view('videos.index', compact('videos')); // Ensure 'videos.index' is a valid view name
     }
 
-    /**
-     * Display the videos tested by a specific user.
-     *
-     * @param  int  $userId
-     * @return \Illuminate\Http\Response
-     */
-    public function testedBy($userId): Response
+    public function create()
     {
-        $videos = Video::where('tested_by', $userId)->get();
-        return response()->view('videos.tested_by', compact('videos'));
+        return view('videos.create'); // Ensure 'videos.create' is a valid view name
+    }
+
+    public function store(Request $request)
+    {
+        $video = Video::create($request->all());
+        return redirect()->route('videos.index');
+    }
+
+    public function show($id)
+    {
+        $video = Video::findOrFail($id);
+        return view('videos.show', compact('video')); // Ensure 'videos.show' is a valid view name
+    }
+
+    public function edit(Video $video)
+    {
+        return view('videos.edit', compact('video')); // Ensure 'videos.edit' is a valid view name
+    }
+
+    public function update(Request $request, Video $video)
+    {
+        $video->update($request->all());
+        return redirect()->route('videos.index');
+    }
+
+    public function destroy(Video $video)
+    {
+        $video->delete();
+        return redirect()->route('videos.index');
     }
 }

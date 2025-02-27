@@ -34,6 +34,10 @@ class Video extends Model
         'published_at' => 'datetime',
     ];
 
+    public static function create(array $attributes)
+    {
+    }
+
     /**
      * Retorna la data en format "13 de gener de 2025".
      *

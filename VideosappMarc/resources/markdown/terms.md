@@ -18,10 +18,9 @@ En el segon sprint, vam ampliar les funcionalitats del projecte:
 - Desenvolupament de proves unitàries i funcionals per assegurar la qualitat del codi.
 - Optimització del rendiment i millores en la interfície d'usuari.
 
-
 ## Sprint 3
 
-En el tercer sprint, hem realitzat les següents tasques:
+He realitzat les següents tasques:
 
 - **Gestió de Vídeos**:
     - S'ha creat el controlador `VideosManageController`.
@@ -35,3 +34,23 @@ En el tercer sprint, hem realitzat les següents tasques:
 
 - **Personalització de Stubs**:
     - S'han publicat i personalitzat els stubs de Laravel per adaptar-los a les necessitats del projecte.
+
+## Sprint 4
+
+He realitzat les següents tasques:
+
+- **Rutes i Middleware**:
+    - S'han creat les rutes de `videos/manage` per al CRUD de vídeos amb el seu middleware corresponent.
+    - S'ha afegit la ruta de l'índex de vídeos accessible tant si estàs logejat com si no.
+
+- **Controlador de Vídeos**:
+    - S'ha actualitzat el controlador `VideoController` amb les funcions necessàries per al CRUD de vídeos.
+    - S'ha afegit la funció `show` per mostrar un vídeo específic.
+    - S'ha afegit la funció `testedBy` per mostrar vídeos provats per un usuari específic.
+
+- **Plantilla de Layout**:
+    - S'ha creat la plantilla `resources/layouts/videosapp.blade.php` amb una navbar i un footer.
+    - S'ha configurat la navegació entre pàgines.
+
+- **Documentació**:
+    - S'ha actualitzat el fitxer `resources/markdown/terms.md` amb els canvis realitzats durant l'sprint.

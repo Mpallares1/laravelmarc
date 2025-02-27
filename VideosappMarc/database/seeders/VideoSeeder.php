@@ -10,5 +10,8 @@ class VideoSeeder extends Seeder
     public function run()
     {
         DefaultVideos::createDefaultVideo();
+        DefaultVideos::createSecondDefaultVideo();
+        DefaultVideos::createThirdDefaultVideo();
+
     }
 }

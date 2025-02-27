@@ -7,6 +7,7 @@ use App\Helpers\DefaultVideos;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
+use PermissionsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
         $regularUser->assignRole('Regular User');
         $videoManagerUser->assignRole('Video Manager');
         $superAdminUser->assignRole('Super Admin');
+
+        $this->call(PermissionsSeeder::class);
 
         // Crear un video por defecto
         DefaultVideos::createDefaultVideo();

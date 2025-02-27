@@ -117,7 +117,9 @@ class CreateUsers
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            if (!Permission::where('name', $permission)->where('guard_name', 'web')->exists()) {
+                Permission::create(['name' => $permission, 'guard_name' => 'web']);
+            }
         }
 
         $role = Role::create(['name' => 'Video Manager']);
