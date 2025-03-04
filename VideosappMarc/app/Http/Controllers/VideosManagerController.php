@@ -14,7 +14,7 @@ class VideosManageController extends Controller
      */
     public function testedBy()
     {
-        return \Tests\Feature\Videos\VideosManageControllerTest::class;
+        return \Tests\Feature\Videos\VideosManagerControllerTest::class;
     }
 
     /**

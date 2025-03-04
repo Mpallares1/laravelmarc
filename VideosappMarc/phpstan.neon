@@ -6,4 +6,4 @@ parameters:
         - app
         - resources
         - tests
-    level: 5
+    level: 1
