@@ -100,24 +100,37 @@
     <div class="py-12 bg-[#080810] min-h-screen flex flex-col">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-[#0a0a14] text-[#e6e6fa] overflow-hidden shadow-xl sm:rounded-lg p-6 border border-gray-700">
+
                 <x-welcome />
-                <div class="mt-6 text-center">
-                    <a href="{{ route('videos.index') }}" class="bg-[#f64f59] hover:bg-[#d43b45] text-white font-bold py-2 px-4 rounded transition-colors">Volver a Videos</a>
-                </div>
-                <h2 class="font-semibold text-xl text-[#12c2e9] leading-tight">
+
+
+
+                <!-- Dashboard con botones de administración -->
+                <h2 class="font-semibold text-xl text-[#12c2e9] leading-tight text-center mt-6">
                     {{ __('Dashboard') }}
-                    @can('manage-videos')
-                        <a href="{{ route('videos.manage.index') }}" class="bg-[#12c2e9] hover:bg-[#0b93d5] text-black font-bold py-2 px-4 rounded transition-colors">Manage Videos</a>
-                    @endcan
-                    @can('admmistradorUsuaris')
-                        <a href="{{ route('users.manage.index') }}" class="bg-[#c471ed] hover:bg-[#a45bbf] text-black font-bold py-2 px-4 rounded transition-colors">Administrar usuaris</a>
-                    @endcan
-                    <a href="{{ route('videos.index') }}" class="bg-[#c471ed] hover:bg-[#a45bbf] text-black font-bold py-2 px-4 rounded transition-colors">Volver a Videos</a>
                 </h2>
+
+                <div class="flex justify-center space-x-4 mt-6">
+                    @can('manage-videos')
+                        <a href="{{ route('videos.manage.index') }}"
+                           class="bg-[#12c2e9] hover:bg-[#0b93d5] text-white font-bold py-2 px-4 rounded transition-colors">
+                            Manage Videos
+                        </a>
+                    @endcan
+
+                    @can('admmistradorUsuaris')
+                        <a href="{{ route('users.manage.index') }}"
+                           class="bg-[#c471ed] hover:bg-[#a45bbf] text-white font-bold py-2 px-4 rounded transition-colors">
+                            Administrar Usuaris
+                        </a>
+                    @endcan
+
+                    <a href="{{ route('videos.index') }}"
+                       class="bg-[#c471ed] hover:bg-[#a45bbf] text-white font-bold py-2 px-4 rounded transition-colors">
+                        Volver a Videos
+                    </a>
+                </div>
             </div>
         </div>
     </div>
- 
-
 @endsection
-
