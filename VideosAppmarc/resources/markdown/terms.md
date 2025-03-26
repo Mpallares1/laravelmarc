@@ -8,9 +8,9 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 - Formatar les dates de publicació de vídeo mitjançant la biblioteca de carboni
 
 ## Sprint 1
-**Creacio d'usuaris**: Creem un usuari amb lo helper `CreacioUsuari`.  
-**Crear configuracio per defecte**: Creem l'arxiu `defaultusers.php` ante fiquem les credencials dels usuaris per defecte.  
-**Modificar .env**: Al arxiu `.env` afegim les dades de `defaultusers.php`.  
+**Creacio d'usuaris**: Creem un usuari amb lo helper `CreacioUsuari`.
+**Crear configuracio per defecte**: Creem l'arxiu `defaultusers.php` ante fiquem les credencials dels usuaris per defecte.
+**Modificar .env**: Al arxiu `.env` afegim les dades de `defaultusers.php`.
 **Creacio test**: Creem un test per comprovar que es poden crear usuaris.
 
 ## Sprint 2
@@ -109,3 +109,77 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 **Routes**: S'han creat les rutes "vídeos/manage" per al CRUD de vídeo amb el middleware corresponent i la ruta d'índex de vídeo.
 
 **Layout**: Modificar  la barra de navegacio per afegir les noves rutes
+
+## Sprint 5
+**Correcció d'errors**: Corregir els errors detectats en el Sprint 4.
+
+**Validació de contrasenya**: S'ha afegit la validació de contrasenya mínima de 8 caràcters en la creació d'usuaris.
+
+**Imatge de portada del vídeo**: S'ha actualitzat la vista `index` per mostrar la imatge de portada dels vídeos utilitzant la URL de la miniatura de YouTube.
+
+**Helpers**: S'han revisat i actualitzat els helpers per a la creació d'usuaris i equips.
+
+**Rutes**: S'han revisat i actualitzat les rutes per a la gestió de vídeos i usuaris.
+
+**Corregir els errors del 4t sprint**: Corregir els errors del 4t sprint.
+
+**Afegir el camp user\_id a la taula de videos**: Afegir el camp `user_id` a la taula de videos. Per a que al crear un video es guardi l’usuari que l’ha afegit. Per tant, s’haurà de modificar el controller, model, helpers...
+
+**Arreglar tests**: En cas que al modificar el codi falla algun test d’un sprint anterior, s’han d’arreglar.
+
+**UsersManageController**: Crear `usersManageController` en les funcions `testedBy`, `index`, `store`, `edit`, `update`, `delete` i `destroy`.
+
+**UsersController**: Crear la funció `index` i `show` a `usersController`.
+
+**Vistes per al CRUD d'usuaris**: Crear les vistes per al CRUD que només poden veure-ho els que tinguin els permisos adients:
+- `resources/views/users/manage/index.blade.php`
+- `resources/views/users/manage/create.blade.php`
+- `resources/views/users/manage/edit.blade.php`
+- `resources/views/users/manage/delete.blade.php`
+
+**Vista index.blade.php**: Afegir la taula del CRUD d’usuaris.
+
+**Vista create.blade.php**: Afegir el formulari per posar els usuaris, s’ha d’utilitzar l’atribut `data-qa` per a que sigui més fàcil identificar per als testos.
+
+**Vista edit.blade.php**: Afegir la taula del CRUD d’usuaris.
+
+**Vista delete.blade.php**: Afegir la confirmació de l’eliminació de l’usuari.
+
+**Vista users/index.blade.php**: Crear la vista `resources/views/users/index.blade.php` on es vegin tots els usuaris i es puguin buscar i al clicar a l’usuari que porti al detall de l’usuari i els seus videos.
+
+**Helpers**: Crear els permisos de gestió dels usuaris per al CRUD i assignar-los als usuaris superadmin.
+
+**UserTest**: Crear les funcions:
+- `user_without_permissions_can_see_default_users_page`
+- `user_with_permissions_can_see_default_users_page`
+- `not_logged_users_cannot_see_default_users_page`
+- `user_without_permissions_can_see_user_show_page`
+- `user_with_permissions_can_see_user_show_page`
+- `not_logged_users_cannot_see_user_show_page`
+
+**UsersManageControllerTest**: Crear les funcions:
+- `loginAsVideoManager`
+- `loginAsSuperAdmin`
+- `loginAsRegularUser`
+- `user_with_permissions_can_see_add_users`
+- `user_without_users_manage_create_cannot_see_add_users`
+- `user_with_permissions_can_store_users`
+- `user_without_permissions_cannot_store_users`
+- `user_with_permissions_can_destroy_users`
+- `user_without_permissions_cannot_destroy_users`
+- `user_with_permissions_can_see_edit_users`
+- `user_without_permissions_cannot_see_edit_users`
+- `user_with_permissions_can_update_users`
+- `user_without_permissions_cannot_update_users`
+- `user_with_permissions_can_manage_users`
+- `regular_users_cannot_manage_users`
+- `guest_users_cannot_manage_users`
+- `superadmins_can_manage_users`
+
+**Rutes de users/manage**: Crear les rutes de `users/manage` per al CRUD d’usuaris amb el seu middleware correspondent i la ruta de l'índex i el show d’usuaris. Les rutes del CRUD i les de l'índex i show han d'aparèixer només quan estàs logejat.
+
+**Navegació entre pàgines**: S’ha de poder navegar entre pàgines.
+
+**Afegir a resources/markdown/terms**: Afegir el que heu fet al sprint a `resources/markdown/terms`.
+
+**Comprovar en Larastan**: Comprovar en Larastan tots els fitxers que heu creat.

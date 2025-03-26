@@ -5,7 +5,7 @@
 
     <div class="container mx-auto mt-8">
         <h1 class="text-2xl font-bold mb-4">Delete User</h1>
-        <p>Are you sure you want to delete the user named "{{ $user->name }}"?</p>
+        <p>Estas segur que vols eliminar aquest usuari "{{ $user->name }}"?</p>
         <form action="{{ route('users.manage.destroy', $user->id) }}" method="POST" data-qa="form-delete-user" id="delete-form">
             @csrf
             @method('DELETE')
