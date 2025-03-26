@@ -101,6 +101,17 @@
 
     <div class="container mx-auto mt-8">
         <h1 class="text-2xl font-bold mb-4">Creacio nou usuari</h1>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('users.manage.store') }}" method="POST" data-qa="form-create-user" class="bg-[#0a0a14] p-6 rounded shadow-md">
             @csrf
             <div class="mb-4">
@@ -122,6 +133,5 @@
             <button type="submit" class="text-white font-bold py-2 px-4 rounded" data-qa="button-submit">Crear</button>
         </form>
     </div>
-
 
 @endsection

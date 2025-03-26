@@ -39,19 +39,27 @@ class VideosManageController extends Controller
     /**
      * Guardar un video
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
             'url' => 'required|url',
         ]);
 
-        Video::create($request->all());
+        $video = new Video([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'url' => $request->input('url'),
+            'user_id' => Auth::id(),
+        ]);
 
-        return redirect()->route('videos.manage.index')->with('success', 'Video created successfully.');
+        if ($video->save()) {
+            return redirect()->route('videos.manage.index')->with('success', 'Video created successfully.');
+        } else {
+            return redirect()->route('videos.manage.create')->with('error', 'Failed to create video.');
+        }
     }
-
     /**
      * Editar un video
      */
