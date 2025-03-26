@@ -1,10 +1,10 @@
 <footer>
     <div>&copy; {{ date('Y') }} Videos App</div>
     <div class="social-icons">
-        <a href="https://facebook.com" title="Facebook">FB</a>
-        <a href="https://twitter.com" title="Twitter">TW</a>
-        <a href="https://instagram.com" title="Instagram">IG</a>
-        <a href="https://youtube.com" title="YouTube">YT</a>
+        <a href="https://github.com/Mpallares1" title="Facebook">FB</a>
+        <a href="https://github.com/Mpallares1" title="Twitter">TW</a>
+        <a href="https://github.com/Mpallares1" title="Instagram">IG</a>
+        <a href="https://github.com/Mpallares1" title="YouTube">YT</a>
     </div>
     <p>Fet per <a href="https://github.com/Mpallares1" target="_blank">Marc Pallares</a></p>
 </footer>

@@ -82,10 +82,18 @@
         @foreach($videos as $video)
             <div class="video-card">
                 <a href="{{ route('videos.show', $video->id) }}">
-                    <img src="https://img.youtube.com/vi/{{ $video->url }}/0.jpg" alt="{{ $video->title }}">
+                    <img src="https://img.youtube.com/vi/{{ getYoutubeId($video->url) }}/0.jpg" alt="{{ $video->title }}">
                     <h3>{{ $video->title }}</h3>
                 </a>
             </div>
         @endforeach
     </div>
 @endsection
+
+@php
+    function getYoutubeId($url) {
+        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i', $url, $matches);
+        return $matches[1] ?? null;
+    }
+@endphp
+
