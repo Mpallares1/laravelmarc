@@ -115,9 +115,16 @@
                 <label for="url" data-qa="label-url" class="block text-white">URL</label>
                 <input type="url" name="url" id="url" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-url" value="{{ $video->url }}" required>
             </div>
+            <div class="mb-4">
+                <label for="series_id" data-qa="label-series" class="block text-white">Sèrie</label>
+                <select name="series_id" id="series_id" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="select-series">
+                    <option value="">Selecciona una sèrie</option>
+                    @foreach($series as $serie)
+                        <option value="{{ $serie->id }}" {{ $video->series_id == $serie->id ? 'selected' : '' }}>{{ $serie->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button type="submit" class="text-white font-bold py-2 px-4 rounded" data-qa="button-submit">Actualitzar</button>
         </form>
     </div>
-
-
 @endsection

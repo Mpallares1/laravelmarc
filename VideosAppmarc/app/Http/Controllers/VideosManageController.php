@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use App\Models\Series;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,6 @@ class VideosManageController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-
 
         if (Auth::user()->can('videosManager')) {
             $videos = Video::all();
@@ -45,6 +45,7 @@ class VideosManageController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
+            'series_id' => 'nullable|exists:series,id',
         ]);
 
         $video = new Video([
@@ -52,6 +53,7 @@ class VideosManageController extends Controller
             'description' => $request->input('description'),
             'url' => $request->input('url'),
             'user_id' => Auth::id(),
+            'series_id' => $request->input('series_id'),
         ]);
 
         if ($video->save()) {
@@ -60,13 +62,15 @@ class VideosManageController extends Controller
             return redirect()->route('videos.manage.create')->with('error', 'Failed to create video.');
         }
     }
+
     /**
      * Editar un video
      */
     public function edit($id)
     {
         $video = Video::findOrFail($id);
-        return view('videos.manage.edit', compact('video'));
+        $series = Series::all();
+        return view('videos.manage.edit', compact('video', 'series'));
     }
 
     /**
@@ -78,6 +82,7 @@ class VideosManageController extends Controller
             'title' => 'required',
             'description' => 'required',
             'url' => 'required|url',
+            'series_id' => 'nullable|exists:series,id',
         ]);
 
         $video = Video::findOrFail($id);
@@ -102,9 +107,9 @@ class VideosManageController extends Controller
      */
     public function create()
     {
-        return view('videos.manage.create');
+        $series = Series::all();
+        return view('videos.manage.create', compact('series'));
     }
-
 
     public function testedBy($id)
     {

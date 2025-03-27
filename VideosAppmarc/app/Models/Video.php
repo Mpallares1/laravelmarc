@@ -1,4 +1,5 @@
 <?php
+// app/Models/Video.php
 
 namespace App\Models;
 
@@ -8,16 +9,15 @@ use Carbon\Carbon;
 
 class Video extends Model
 {
-
     use HasFactory;
-    protected $fillable = ['title', 'description', 'url', 'user_id'];
+    protected $fillable = ['title', 'description', 'url', 'user_id', 'series_id'];
 
+    public function series(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Series::class);
+    }
 
     protected $dates = ['published_at'];
-
-    public static function create(array $array)
-    {
-    }
 
     public function getFormattedPublishedAtAttribute()
     {
@@ -33,6 +33,4 @@ class Video extends Model
     {
         return Carbon::parse($this->published_at)->timestamp;
     }
-
-
 }

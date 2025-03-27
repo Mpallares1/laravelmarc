@@ -115,6 +115,15 @@
                     <label for="url" data-qa="label-url" class="block text-[#e6e6fa] font-medium">URL</label>
                     <input type="url" name="url" id="url" class="bg-[#12121a] border border-gray-600 text-black p-2 w-full rounded focus:ring-2 focus:ring-[#12c2e9]" data-qa="input-url" required>
                 </div>
+                <div class="mb-6">
+                    <label for="series_id" data-qa="label-series" class="block text-[#e6e6fa] font-medium">Sèrie</label>
+                    <select name="series_id" id="series_id" class="bg-[#12121a] border border-gray-600 text-black p-2 w-full rounded focus:ring-2 focus:ring-[#12c2e9]" data-qa="select-series">
+                        <option value="">Selecciona una sèrie</option>
+                        @foreach($series as $serie)
+                            <option value="{{ $serie->id }}">{{ $serie->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="flex justify-between">
                     <a href="{{ route('videos.manage.index') }}" class="bg-[#c471ed] hover:bg-[#a45bbf] text-white font-bold py-2 px-4 rounded transition-colors">Volver</a>
                     <button type="submit" class="bg-[#12c2e9] hover:bg-[#0b93d5] text-white font-bold py-2 px-4 rounded transition-colors" data-qa="button-submit">Crear</button>

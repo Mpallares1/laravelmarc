@@ -33,10 +33,42 @@ class VideosController extends Controller
         $users = $video->testedByUsers;
         return response()->json($users);
     }
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required',
+            'series_id' => 'nullable|exists:series,id',
+        ]);
+
+        $video = new Video();
+        $video->title = $request->title;
+        $video->url = $request->url;
+        $video->series_id = $request->series_id;
+        $video->save();
+
+        return redirect()->route('videos.index');
+    }
+
+    public function update(Request $request, Video $video)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required',
+            'series_id' => 'nullable|exists:series,id',
+        ]);
+
+        $video->title = $request->title;
+        $video->url = $request->url;
+        $video->series_id = $request->series_id;
+        $video->save();
+
+        return redirect()->route('videos.index');
+    }
+
+
 }
-
-
-
-
 
 
