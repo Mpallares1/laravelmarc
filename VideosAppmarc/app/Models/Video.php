@@ -10,25 +10,40 @@ use Carbon\Carbon;
 class Video extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'url', 'user_id', 'series_id'];
 
-    public function series(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    protected $fillable = [
+        'title', 'description', 'url', 'user_id', 'series_id'
+    ];
+
+    protected $dates = ['published_at'];
+
+    /**
+     * Relación inversa 1:N con el modelo Series.
+     */
+    public function series()
     {
         return $this->belongsTo(Series::class);
     }
 
-    protected $dates = ['published_at'];
-
+    /**
+     * Obtener la fecha de publicación formateada.
+     */
     public function getFormattedPublishedAtAttribute()
     {
         return $this->published_at ? Carbon::parse($this->published_at)->format('F j, Y') : 'Not Published';
     }
 
+    /**
+     * Obtener la fecha de publicación en formato humano.
+     */
     public function getFormattedForHumansPublishedAtAttribute()
     {
         return Carbon::parse($this->published_at)->diffForHumans();
     }
 
+    /**
+     * Obtener la marca de tiempo de la fecha de publicación.
+     */
     public function getPublishedAtTimestampAttribute()
     {
         return Carbon::parse($this->published_at)->timestamp;

@@ -122,5 +122,8 @@
     <div>
         <strong>Email:</strong> {{ $user->email }}
     </div>
+    <div>
+        <strong>Videos: </strong> {{ $videoCount }}
+    </div>
     <a href="{{ url()->previous() }}" class="btn-back">Volver Atrás</a>
 @endsection

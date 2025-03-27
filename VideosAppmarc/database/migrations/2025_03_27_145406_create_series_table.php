@@ -15,8 +15,12 @@ class CreateSeriesTable extends Migration
     {
         Schema::create('series', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->string('user_name');
+            $table->string('user_photo_url')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

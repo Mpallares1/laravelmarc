@@ -100,17 +100,17 @@
     </style>
 
     <div class="container">
-        <h1>Manage Videos</h1>
+        <h1>All Videos</h1>
         <div class="flex justify-center mb-4">
-            <a href="{{ route('videos.manage.create') }}" class="btn-create">Crear Video</a>
+            <a href="{{ route('videos.manage.create') }}" class="btn-create">Create Video</a>
         </div>
         <div class="flex justify-center">
             <table>
                 <thead>
                 <tr>
-                    <th>Titulo</th>
-                    <th>Descripción</th>
-                    <th>Acciones</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -119,11 +119,11 @@
                         <td>{{ $video->title }}</td>
                         <td>{{ $video->description }}</td>
                         <td>
-                            <a href="{{ route('videos.manage.edit', $video->id) }}" class="btn-edit">Editar</a>
+                            <a href="{{ route('videos.manage.edit', $video->id) }}" class="btn-edit">Edit</a>
                             <form action="{{ route('videos.manage.destroy', $video->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-delete">Esborrar</button>
+                                <button type="submit" class="btn-delete">Delete</button>
                             </form>
                         </td>
                     </tr>

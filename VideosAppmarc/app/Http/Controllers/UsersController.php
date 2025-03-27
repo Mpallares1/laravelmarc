@@ -13,7 +13,10 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $videoCount = $user->videos()->count();
+
+        return view('users.show', compact('user', 'videoCount'));
+
     }
 
     /**

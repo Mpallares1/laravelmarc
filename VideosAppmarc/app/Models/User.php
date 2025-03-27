@@ -84,6 +84,11 @@ class User extends Authenticatable
         $this->switchTeam($team);
     }
 
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+
+    }
     public function tests(): HasMany
     {
         return $this->hasMany(Test::class);
