@@ -81,6 +81,9 @@ class CreacioUsuari
         // Create a team for the user
         self::creacioEquip($user);
 
+        // Create series management permissions and assign to superadmin
+        self::create_series_management_permissions();
+
         return $user;
     }
 
@@ -145,8 +148,21 @@ class CreacioUsuari
         }
     }
 
+    public static function create_series_management_permission()
+    {
+        $permission = 'manageseries';
 
+        if (!Permission::where('name', $permission)->exists()) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
 
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'web']);
+        if (!$superAdminRole->hasPermissionTo($permission)) {
+            $superAdminRole->givePermissionTo($permission);
+        }
+    }
 
-
+    private static function create_series_management_permissions()
+    {
+    }
 }

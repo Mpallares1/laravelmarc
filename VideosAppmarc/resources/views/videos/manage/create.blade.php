@@ -118,9 +118,9 @@
                 <div class="mb-6">
                     <label for="series_id" data-qa="label-series" class="block text-[#e6e6fa] font-medium">Sèrie</label>
                     <select name="series_id" id="series_id" class="bg-[#12121a] border border-gray-600 text-black p-2 w-full rounded focus:ring-2 focus:ring-[#12c2e9]" data-qa="select-series">
-                        <option value="">Selecciona una sèrie</option>
+                        <option value=""    >Selecciona una sèrie</option>
                         @foreach($series as $serie)
-                            <option value="{{ $serie->id }}">{{ $serie->name }}</option>
+                            <option  value="{{ $serie->id }}">{{ $serie->title }} </option>
                         @endforeach
                     </select>
                 </div>

@@ -17,6 +17,7 @@
             <li><a href="{{ route('home') }}" class="nav-link">Home</a></li>
             <li><a href="{{ route('videos.index') }}" class="nav-link">Videos</a></li>
             <li><a href="{{ route('users.index') }}" class="nav-link">Usuaris</a></li>
+            <li><a href="{{ route('series.index') }}" class="nav-link">Series</a></li>
             @auth
                 <li><a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a></li>
                 @can('manage-videos')
@@ -24,6 +25,9 @@
                 @endcan
                 @can('admmistradorUsuaris')
                     <li><a href="{{ route('users.manage.index') }}" class="nav-link">Administrar Usuaris</a></li>
+                @endcan
+                @can('manageseries')
+                    <li><a href="{{ route('series.manage.index') }}" class="nav-link">Administrar Series</a></li>
                 @endcan
                 <li>
                     <form action="{{ route('logout') }}" method="POST" class="inline">

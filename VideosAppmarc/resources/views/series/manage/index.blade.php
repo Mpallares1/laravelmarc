@@ -1,6 +1,7 @@
 @extends('layouts.videos-app-layout')
 
 @section('content')
+
     <style>
         body {
             margin: 0;
@@ -73,6 +74,13 @@
             display: inline-block;
             background: #12c2e9;
             color: #080810;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-create:hover {
@@ -96,35 +104,45 @@
         .btn-delete:hover {
             background: #d62839;
         }
+
     </style>
 
-    <div class="container mx-auto mt-8">
-        <h1 class="text-2xl font-bold mb-4">Editar Video</h1>
-        <form action="{{ route('videos.manage.update', $video->id) }}" method="POST" data-qa="form-edit-video" class="bg-[#0a0a14] p-6 rounded shadow-md">
-            @csrf
-            @method('PUT')
-            <div class="mb-4">
-                <label for="title" data-qa="label-title" class="block text-white">Titol</label>
-                <input type="text" name="title" id="title" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-title" value="{{ $video->title }}" required>
+
+    @can('manageseries')
+        <div class="container">
+            <h1>Administrar Series</h1>
+            <div class="flex justify-center mb-4">
+                <a href="{{ route('series.manage.create') }}" class="btn-create">Crear Nueva Serie</a>
             </div>
-            <div class="mb-4">
-                <label for="description" data-qa="label-description" class="block text-white">Descripcio</label>
-                <textarea name="description" id="description" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="textarea-description" required>{{ $video->description }}</textarea>
-            </div>
-            <div class="mb-4">
-                <label for="url" data-qa="label-url" class="block text-white">URL</label>
-                <input type="url" name="url" id="url" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-url" value="{{ $video->url }}" required>
-            </div>
-            <div class="mb-4">
-                <label for="series_id" data-qa="label-series" class="block text-white">Sèrie</label>
-                <select name="series_id" id="series_id" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="select-series">
-                    <option value="">Selecciona una sèrie</option>
-                    @foreach($series as $serie)
-                        <option value="{{ $serie->id }}" {{ $video->series_id == $serie->id ? 'selected' : '' }}>{{ $serie->title }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="text-white font-bold py-2 px-4 rounded" data-qa="button-submit">Actualitzar</button>
-        </form>
-    </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>User Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($series as $serie)
+                    <tr>
+                        <td>{{ $serie->title }}</td>
+                        <td>{{ $serie->description }}</td>
+                        <td>{{ $serie->user_name }}</td>
+                        <td>
+                            <a href="{{ route('series.manage.edit', $serie->id) }}" class="btn-edit">Editar</a>
+                            <form action="{{ route('series.manage.destroy', $serie->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta serie?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <p>No tienes permiso para ver esta página.</p>
+    @endcan
 @endsection

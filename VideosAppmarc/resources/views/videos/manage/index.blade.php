@@ -110,6 +110,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Series</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -118,6 +119,8 @@
                     <tr>
                         <td>{{ $video->title }}</td>
                         <td>{{ $video->description }}</td>
+                        <td>{{ $video->series ? $video->series->title : 'No Series' }}</td>
+
                         <td>
                             <a href="{{ route('videos.manage.edit', $video->id) }}" class="btn-edit">Edit</a>
                             <form action="{{ route('videos.manage.destroy', $video->id) }}" method="POST" style="display:inline;">

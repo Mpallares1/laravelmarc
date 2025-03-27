@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Video;
 use App\Models\User;
+use App\Models\Series;
 
 class DefaultVideos
 {
@@ -46,13 +47,44 @@ class DefaultVideos
                 'user_id' => $user->id,
             ]);
 
-            // Add more default videos as needed
+            // Create 3 series
+            self::create_series();
         } else {
             throw new \Exception('No users found in the database.');
         }
     }
+
+    public static function create_series()
+    {
+        $seriesData = [
+            [
+                'title' => 'Series 1',
+                'description' => 'Description for Series 1',
+                'image' => 'image1.jpg',
+                'user_name' => 'User 1',
+                'user_photo_url' => 'user1.jpg',
+                'published_at' => now(),
+            ],
+            [
+                'title' => 'Series 2',
+                'description' => 'Description for Series 2',
+                'image' => 'image2.jpg',
+                'user_name' => 'User 2',
+                'user_photo_url' => 'user2.jpg',
+                'published_at' => now(),
+            ],
+            [
+                'title' => 'Series 3',
+                'description' => 'Description for Series 3',
+                'image' => 'image3.jpg',
+                'user_name' => 'User 3',
+                'user_photo_url' => 'user3.jpg',
+                'published_at' => now(),
+            ],
+        ];
+
+        foreach ($seriesData as $data) {
+            Series::create($data);
+        }
+    }
 }
-
-
-
-

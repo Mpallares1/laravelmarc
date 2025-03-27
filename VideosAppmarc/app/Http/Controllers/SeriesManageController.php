@@ -13,7 +13,7 @@ class SeriesManageController extends Controller
     public function index()
     {
         $series = Series::all();
-        return view('series.index', compact('series'));
+        return view('series.manage.index', compact('series'));
     }
 
     /**
@@ -21,7 +21,7 @@ class SeriesManageController extends Controller
      */
     public function create()
     {
-        return view('series.create');
+        return view('series.manage.create');
     }
 
     /**
@@ -40,21 +40,22 @@ class SeriesManageController extends Controller
 
         Series::create($request->all());
 
-        return redirect()->route('series.index')->with('success', 'Serie creada exitosamente.');
+        return redirect()->route('series.manage.index')->with('success', 'Serie creada exitosamente.');
     }
 
     /**
      * Mostrar el formulario para editar una serie existente.
      */
-    public function edit(Series $series)
+    public function edit($id)
     {
-        return view('series.edit', compact('series'));
+        $serie = Series::findOrFail($id);
+        return view('series.manage.edit', compact('serie'));
     }
 
     /**
      * Actualizar una serie existente en la base de datos.
      */
-    public function update(Request $request, Series $series)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -65,19 +66,20 @@ class SeriesManageController extends Controller
             'published_at' => 'nullable|date',
         ]);
 
-        $series->update($request->all());
+        $serie = Series::findOrFail($id);
+        $serie->update($request->all());
 
-        return redirect()->route('series.index')->with('success', 'Serie actualizada exitosamente.');
+        return redirect()->route('series.manage.index')->with('success', 'Serie actualizada exitosamente.');
     }
-
     /**
      * Eliminar una serie existente de la base de datos.
      */
-    public function destroy(Series $series)
+    public function destroy($id)
     {
-        $series->delete();
+        $serie = Series::findOrFail($id);
+        $serie->delete();
 
-        return redirect()->route('series.index')->with('success', 'Serie eliminada exitosamente.');
+        return redirect()->route('series.manage.index')->with('success', 'Series deleted successfully.');
     }
 
     /**

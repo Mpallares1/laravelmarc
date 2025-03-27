@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\SeriesManageController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\UsersManageController;
 use App\Http\Controllers\VideosManageController;
@@ -35,9 +37,21 @@ Route::middleware([
         Route::delete('/users/manage/{id}', [UsersManageController::class, 'destroy'])->name('users.manage.destroy');
     });
 
+    Route::middleware(['auth', 'can:manageseries'])->group(function () {
+        Route::get('/series/manage', [SeriesManageController::class, 'index'])->name('series.manage.index');
+        Route::get('/series/manage/create', [SeriesManageController::class, 'create'])->name('series.manage.create');
+        Route::post('/series/manage', [SeriesManageController::class, 'store'])->name('series.manage.store');
+        Route::get('/series/manage/{id}/edit', [SeriesManageController::class, 'edit'])->name('series.manage.edit');
+        Route::put('/series/manage/{id}', [SeriesManageController::class, 'update'])->name('series.manage.update');
+        Route::delete('/series/manage/{id}', [SeriesManageController::class, 'destroy'])->name('series.manage.destroy');
+    });
+    Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+    Route::get('/series/{id}', [SeriesController::class, 'show'])->name('series.show');
+
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
 });
 
 Route::get('/videos', [VideosController::class, 'index'])->name('videos.index');
 Route::get('/videos/{id}', [VideosController::class, 'show'])->name('videos.show');
+

@@ -96,35 +96,56 @@
         .btn-delete:hover {
             background: #d62839;
         }
+
+        .btn-back {
+            display: inline-block;
+            background: #c471ed;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            background: #a45bbf;
+        }
     </style>
 
-    <div class="container mx-auto mt-8">
-        <h1 class="text-2xl font-bold mb-4">Editar Video</h1>
-        <form action="{{ route('videos.manage.update', $video->id) }}" method="POST" data-qa="form-edit-video" class="bg-[#0a0a14] p-6 rounded shadow-md">
-            @csrf
-            @method('PUT')
-            <div class="mb-4">
-                <label for="title" data-qa="label-title" class="block text-white">Titol</label>
-                <input type="text" name="title" id="title" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-title" value="{{ $video->title }}" required>
-            </div>
-            <div class="mb-4">
-                <label for="description" data-qa="label-description" class="block text-white">Descripcio</label>
-                <textarea name="description" id="description" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="textarea-description" required>{{ $video->description }}</textarea>
-            </div>
-            <div class="mb-4">
-                <label for="url" data-qa="label-url" class="block text-white">URL</label>
-                <input type="url" name="url" id="url" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-url" value="{{ $video->url }}" required>
-            </div>
-            <div class="mb-4">
-                <label for="series_id" data-qa="label-series" class="block text-white">Sèrie</label>
-                <select name="series_id" id="series_id" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="select-series">
-                    <option value="">Selecciona una sèrie</option>
-                    @foreach($series as $serie)
-                        <option value="{{ $serie->id }}" {{ $video->series_id == $serie->id ? 'selected' : '' }}>{{ $serie->title }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="text-white font-bold py-2 px-4 rounded" data-qa="button-submit">Actualitzar</button>
-        </form>
+    <div class="container">
+        <h1>All Series</h1>
+        <div class="flex justify-center mb-4">
+            <form action="{{ route('series.index') }}" method="GET" class="w-full max-w-sm">
+                <input type="text" name="search" placeholder="Search series..." class="form-control border border-gray-300 text-black p-2 w-full" value="{{ request('search') }}">
+                <button type="submit" class="btn-create mt-2">Search</button>
+            </form>
+        </div>
+        <div class="flex justify-center">
+            <table>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($series as $serie)
+                    <tr>
+                        <td>{{ $serie->title }}</td>
+                        <td>{{ $serie->description }}</td>
+                        <td>
+                            <a href="{{ route('series.show', $serie->id) }}" class="btn-edit">View Videos</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ url()->previous() }}" class="btn-back">Volver Atrás</a>
     </div>
 @endsection
