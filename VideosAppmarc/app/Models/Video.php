@@ -24,7 +24,10 @@ class Video extends Model
     {
         return $this->belongsTo(Series::class);
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     /**
      * Obtener la fecha de publicación formateada.
      */

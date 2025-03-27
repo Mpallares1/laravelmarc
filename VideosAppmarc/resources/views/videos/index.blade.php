@@ -88,6 +88,13 @@
             </div>
         @endforeach
     </div>
+    @auth
+        @if(auth()->user()->hasRole('videosmanager'))
+            <div class="flex justify-center mb-4">
+                <a href="{{ route('videos.create') }}" class="btn btn-primary">Create Video</a>
+            </div>
+        @endif
+    @endauth
 @endsection
 
 @php

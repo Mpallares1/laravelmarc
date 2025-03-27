@@ -57,10 +57,13 @@ class CreacioUsuari
             'password' => Hash::make('123456789'),
         ]);
 
-        // Assignar permisos
-        $user->givePermissionTo('videosManager');
+        // Crear el rol si no existe
+        $role = Role::firstOrCreate(['name' => 'videosmanager', 'guard_name' => 'web']);
 
-        // Crear un equip per l'usuari
+        // Asignar el rol al usuario
+        $user->assignRole($role);
+
+        // Crear un equipo para el usuario
         self::creacioEquip($user);
 
         return $user;

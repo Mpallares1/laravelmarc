@@ -21,7 +21,8 @@ class VideosController extends Controller
      * Show the form for creating a new video.
      */
     public function create()
-    {
+    {         $this->authorize('create', Video::class);
+
         return view('videos.create');
     }
 
@@ -29,7 +30,8 @@ class VideosController extends Controller
      * Store a newly created video in storage.
      */
     public function store(Request $request)
-    {
+    {        $this->authorize('create', Video::class);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -107,5 +109,9 @@ class VideosController extends Controller
         $video = Video::findOrFail($id);
         $users = $video->testedByUsers;
         return response()->json($users);
+    }
+
+    private function authorize(string $string, string $class)
+    {
     }
 }

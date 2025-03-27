@@ -29,9 +29,9 @@ class TeamPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
-        return true;
+        return $user->can('create videos');
     }
 
     /**

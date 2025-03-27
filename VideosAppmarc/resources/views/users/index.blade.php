@@ -130,7 +130,6 @@
     </style>
 
 
-
         <div class="max-w-4xl mx-auto bg-[#0a0a14] p-8 rounded-lg shadow-lg border border-gray-700 mt-10">
             <h1 class="text-2xl font-bold mb-6 text-center text-[#12c2e9]">Usuaris</h1>
 
