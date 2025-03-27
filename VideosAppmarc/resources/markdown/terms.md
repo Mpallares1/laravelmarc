@@ -15,7 +15,7 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 
 ## Sprint 2
 1. **Revisio errors**: Arreglar errors de sprints anteriors.
-2. **Estructura vidos**: Creem la estructura per a videos, model,controlador, migracions, vistes, etc...
+2. **Estructura vidos**: Creem la estructura per a videos, model, controlador, migracions, vistes, etc...
 3. **Creacio testos**: Crear testos per a la creacio i format dels videos.
 4. **Revisio Larastran**: Instalacio de la llibreria Larastran per a la formatacio de dates i revisio del codi.
 
@@ -24,7 +24,7 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 
 **Instal·lació de spatie/laravel-permission**: Instal·lar el paquet spatie/laravel-permission.
 
-**Migració super_admin**: Crear una migració per afegir el camp super_admin a la taula dels usuaris.
+**Migració super\_admin**: Crear una migració per afegir el camp super\_admin a la taula dels usuaris.
 
 **Model d’usuaris**:
 - Afegir la funció `testedBy()`.
@@ -52,7 +52,6 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 **Creació de tests**:
 - `VideosManageControllerTest` a `tests/Feature/Videos/`:
 - `UserTest` a `tests/Unit/`:
-
 
 ## Sprint 4
 **Correcció d'errors**: Corregir els errors detectats en el Sprint 3.
@@ -108,7 +107,7 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 
 **Routes**: S'han creat les rutes "vídeos/manage" per al CRUD de vídeo amb el middleware corresponent i la ruta d'índex de vídeo.
 
-**Layout**: Modificar  la barra de navegacio per afegir les noves rutes
+**Layout**: Modificar la barra de navegacio per afegir les noves rutes
 
 ## Sprint 5
 **Correcció d'errors**: Corregir els errors detectats en el Sprint 4.
@@ -183,3 +182,49 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 **Afegir a resources/markdown/terms**: Afegir el que heu fet al sprint a `resources/markdown/terms`.
 
 **Comprovar en Larastan**: Comprovar en Larastan tots els fitxers que heu creat.
+
+## Sprint 6
+**Modificar videos per poder assignar el video a les series**.
+**Els regular users han de poder crear videos**. Per tant a VideoController afegirem les funcions del crud per als regular. A la vista de videos s’haurà de crear els botons per al crud.
+**Crear migracio series**. Ha de tindre els camps id, title, description, image, user\_name, user\_photo\_url, published\_at.
+**Crear el model de series**. Ha de tindre les funcions testedby, videos (per fer la relació 1:N), getFormattedCreatedAtAttribute, getFormattedForHumansCreatedAtAttribute, getCreatedAtTimestampAttribute.
+**Al model de videos afegir la relació 1:N**.
+**Crear SeriesManageController** en les funcions testedby, index, store, edit, update, delete i destroy.
+**Crear SeriesController** en les funcions index i show.
+**Crear el model de Serie** amb les funcions testedby, videos, getFormattedCreatedAtAttribute(), getFormattedForHumansCreatedAtAttribute() i getCreatedAtTimestampAttribute().
+**Crear la migració de la serie** ha de tenir els camps, id, title, description, image (nullable), user\_name, user\_photo\_url (nullable), published\_at (nullable).
+**A helpers crear la funció create\_series()** ha d’haver 3 series.
+**Crear les vistes per al CRUD** que només poden veure-ho els que tinguin els permisos adients: `resources/views/series/manage/index.blade.php`, `resources/views/series/manage/create.blade.php`, `resources/views/series/manage/edit.blade.php`, `resources/views/series/manage/delete.blade.php`.
+**A la vista index.blade.php**, afegir la taula del CRUD de series.
+**A la vista create.blade.php**, afegir el formulari per posar les series, s’ha d’utilitzar l’atribut `data-qa` per a que sigui més fàcil identificar per als testos.
+**A la vista edit.blade.php**, afegir la taula del CRUD de series.
+**A la vista delete.blade.php**, afegir la confirmació de l’eliminació de les sèries i els videos associats a la serie. (Si no es vol borrar els videos es pot fer que es desassigni la relació).
+**Crear la vista de resources/views/series/index.blade.php** on es vegin totes les sèries i es puguin buscar i al clicar a la serie que mostri els videos que té aquella serie.
+**A helpers crear els permisos de gestió de les series** per al crud i assignar-los als usuaris superadmin.
+**A test/Unit/SerieTest crear la funció**:
+- `serie_have_videos()`
+
+**A SeriesManageControllerTest crear les funcions**:
+- `loginAsVideoManager`
+- `loginAsSuperAdmin`
+- `loginAsRegularUser`
+- `user_with_permissions_can_see_add_series`
+- `user_without_series_manage_create_cannot_see_add_series`
+- `user_with_permissions_can_store_series`
+- `user_without_permissions_cannot_store_series`
+- `user_with_permissions_can_destroy_series`
+- `user_without_permissions_cannot_destroy_series`
+- `user_with_permissions_can_see_edit_series`
+- `user_without_permissions_cannot_see_edit_series`
+- `user_with_permissions_can_update_series`
+- `user_without_permissions_cannot_update_series`
+- `user_with_permissions_can_manage_series`
+- `regular_users_cannot_manage_series`
+- `guest_users_cannot_manage_series`
+- `videomanagers_can_manage_series`
+- `superadmins_can_manage_series`
+
+**Crear les rutes de series/manage** per al CRUD de les series amb el seu middleware correspondent i la ruta de l'índex i el show de series. Les rutes del CRUD i les de l'índex i show han d'aparèixer només quan estàs logejat.
+**S’ha de poder navegar entre pàgines**.
+**Afegir a resources/markdown/terms** el que heu fet al sprint.
+**Comprovar en Larastan** tots els fitxers que heu creat.
