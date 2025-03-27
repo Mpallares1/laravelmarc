@@ -12,6 +12,9 @@
                     <input type="text" name="title" id="title"
                            class="border border-gray-500 bg-[#1a1a2e] text-black p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#12c2e9]"
                            required data-qa="title-input">
+                    @error('title')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -19,13 +22,19 @@
                     <textarea name="description" id="description" rows="4"
                               class="border border-gray-500 bg-[#1a1a2e] text-black p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#12c2e9]"
                               required data-qa="description-textarea"></textarea>
+                    @error('description')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label for="image" class="block text-[#e6e6fa] font-semibold mb-2" data-qa="image-label">Image</label>
-                    <input type="text" name="image" id="image"
+                    <label for="image" class="block text-[#e6e6fa] font-semibold mb-2" data-qa="image-label">Image URL</label>
+                    <input type="url" name="image" id="image"
                            class="border border-gray-500 bg-[#1a1a2e] text-black p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#12c2e9]"
                            data-qa="image-input">
+                    @error('image')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -33,13 +42,19 @@
                     <input type="text" name="user_name" id="user_name"
                            class="border border-gray-500 bg-[#1a1a2e] text-black p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#12c2e9]"
                            required data-qa="user_name-input">
+                    @error('user_name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="user_photo_url" class="block text-[#e6e6fa] font-semibold mb-2" data-qa="user_photo_url-label">User Photo URL</label>
-                    <input type="text" name="user_photo_url" id="user_photo_url"
+                    <input type="url" name="user_photo_url" id="user_photo_url"
                            class="border border-gray-500 bg-[#1a1a2e] text-black p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#12c2e9]"
                            data-qa="user_photo_url-input">
+                    @error('user_photo_url')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button type="submit"
@@ -59,7 +74,6 @@
         <p class="text-center text-red-500 text-lg font-semibold mt-6">You do not have permission to create a series.</p>
     @endcan
 @endsection
-
 <style>
     body {
         margin: 0;

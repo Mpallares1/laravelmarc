@@ -114,6 +114,19 @@
         .btn-back:hover {
             background: #a45bbf;
         }
+
+        .series-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .series-title {
+            display: flex;
+            align-items: center;
+        }
     </style>
 
     <div class="container">
@@ -136,7 +149,16 @@
                 <tbody>
                 @foreach($series as $serie)
                     <tr>
-                        <td>{{ $serie->title }}</td>
+                        <td class="series-title">
+                            @if($serie->image)
+                                <img src="{{ $serie->image }}" alt="Series Image" class="series-image">
+                            @else
+                                <div class="series-image bg-gray-500 flex items-center justify-center">
+                                    <span class="text-white">No Image</span>
+                                </div>
+                            @endif
+                            {{ $serie->title }}
+                        </td>
                         <td>{{ $serie->description }}</td>
                         <td>
                             <a href="{{ route('series.show', $serie->id) }}" class="btn-edit">View Videos</a>

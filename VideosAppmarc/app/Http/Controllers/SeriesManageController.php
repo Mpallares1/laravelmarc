@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Series;
+use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SeriesManageController extends Controller
 {
@@ -21,28 +23,48 @@ class SeriesManageController extends Controller
      */
     public function create()
     {
-        return view('series.manage.create');
+        $users = User::all();
+        return view('series.manage.create', compact('users'));
     }
 
     /**
      * Almacenar una nueva serie en la base de datos.
      */
+
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|string',
-            'user_name' => 'required|string|max:255',
-            'user_photo_url' => 'nullable|string',
+            'image' => 'nullable|url',
+            'user_name' => 'required|string',
+            'user_photo_url' => 'nullable|url',
             'published_at' => 'nullable|date',
         ]);
 
-        Series::create($request->all());
+        $user = User::where('name', $request->user_name)->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages(['user_name' => 'The user name does not exist.']);
+        }
+
+        $userPhotoUrl = $request->user_photo_url ?? $user->photo_url;
+
+        Series::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $request->image,
+            'user_name' => $user->name,
+            'user_photo_url' => $userPhotoUrl,
+        ]);
+
+        if ($request->user_photo_url) {
+            $user->photo_url = $request->user_photo_url;
+            $user->save();
+        }
 
         return redirect()->route('series.manage.index')->with('success', 'Serie creada exitosamente.');
     }
-
     /**
      * Mostrar el formulario para editar una serie existente.
      */
@@ -55,19 +77,32 @@ class SeriesManageController extends Controller
     /**
      * Actualizar una serie existente en la base de datos.
      */
+
     public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|string',
-            'user_name' => 'required|string|max:255',
-            'user_photo_url' => 'nullable|string',
-            'published_at' => 'nullable|date',
+            'description' => 'required|string',
+            'image' => 'nullable|url',
+            'user_name' => 'required|string',
+            'user_photo_url' => 'nullable|url',
         ]);
 
+        $user = User::where('name', $request->user_name)->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages(['user_name' => 'The user name does not exist.']);
+        }
+
         $serie = Series::findOrFail($id);
-        $serie->update($request->all());
+
+        $serie->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $request->image,
+            'user_name' => $user->name,
+            'user_photo_url' => $request->user_photo_url,
+        ]);
 
         return redirect()->route('series.manage.index')->with('success', 'Serie actualizada exitosamente.');
     }

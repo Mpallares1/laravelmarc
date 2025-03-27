@@ -19,8 +19,9 @@ class SeriesController extends Controller
     /**
      * Mostrar una serie específica.
      */
-    public function show(Series $series)
+    public function show($id)
     {
-        return view('series.show', compact('series'));
+        $serie = Series::with('videos')->findOrFail($id);
+        return view('series.show', compact('serie'));
     }
 }

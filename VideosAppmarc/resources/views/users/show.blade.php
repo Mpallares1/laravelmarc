@@ -35,6 +35,14 @@
             margin-bottom: 2rem;
         }
 
+        .user-photo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+
         table {
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
@@ -115,15 +123,26 @@
             background: #a45bbf;
         }
     </style>
-    <h1>User Information</h1>
-    <div>
-        <strong>Name:</strong> {{ $user->name }}
+    <div class="container">
+        <h1>User Information</h1>
+        <div class="text-center mb-4">
+            @if($user->user_photo_url)
+                <img src="{{ $user->user_photo_url }}" alt="User Photo" class="user-photo">
+            @else
+                <div class="user-photo bg-gray-500 flex items-center justify-center">
+                    <span class="text-white">No Image</span>
+                </div>
+            @endif
+        </div>
+        <div>
+            <strong>Name:</strong> {{ $user->name }}
+        </div>
+        <div>
+            <strong>Email:</strong> {{ $user->email }}
+        </div>
+        <div>
+            <strong>Videos: </strong> {{ $videoCount }}
+        </div>
+        <a href="{{ url()->previous() }}" class="btn-back">Volver Atrás</a>
     </div>
-    <div>
-        <strong>Email:</strong> {{ $user->email }}
-    </div>
-    <div>
-        <strong>Videos: </strong> {{ $videoCount }}
-    </div>
-    <a href="{{ url()->previous() }}" class="btn-back">Volver Atrás</a>
 @endsection

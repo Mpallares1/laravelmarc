@@ -11,7 +11,12 @@ class Series extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'image', 'user_name', 'user_photo_url', 'published_at'
+        'title',
+        'description',
+        'image',
+        'user_name',
+        'user_photo_url',
+        'published_at',
     ];
 
     /**

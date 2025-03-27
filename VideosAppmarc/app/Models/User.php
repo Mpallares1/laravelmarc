@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo_url',
     ];
 
     protected $hidden = [
@@ -37,13 +38,8 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'profile_photo_url',
-
+        'user_photo_url',
     ];
-
-
-
-
 
     protected function casts(): array
     {
@@ -51,6 +47,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Accessor for user_photo_url.
+     */
+    public function getUserPhotoUrlAttribute()
+    {
+        return $this->photo_url;
     }
 
     /**
@@ -87,8 +91,8 @@ class User extends Authenticatable
     public function videos()
     {
         return $this->hasMany(Video::class);
-
     }
+
     public function tests(): HasMany
     {
         return $this->hasMany(Test::class);
