@@ -129,51 +129,61 @@
         }
     </style>
 
+    <div class="max-w-4xl mx-auto bg-[#0a0a14] p-8 rounded-lg shadow-lg border border-gray-700 mt-10">
+        <h1 class="text-2xl font-bold mb-6 text-center text-[#12c2e9]">Usuaris</h1>
 
-        <div class="max-w-4xl mx-auto bg-[#0a0a14] p-8 rounded-lg shadow-lg border border-gray-700 mt-10">
-            <h1 class="text-2xl font-bold mb-6 text-center text-[#12c2e9]">Usuaris</h1>
+        <!-- Formulario de búsqueda -->
+        <input type="text" id="search" placeholder="Cercar usuaris..." class="bg-[#12121a] border border-gray-600 text-black p-2 w-full rounded focus:ring-2 focus:ring-[#12c2e9]" data-qa="search-input">
 
-            <!-- Formulario de búsqueda -->
-            <form method="GET" action="{{ route('users.index') }}" class="mb-6 flex items-center space-x-2">
-                <input type="text" name="search" placeholder="Cercar usuaris..." value="{{ request('search') }}"
-                       class="bg-[#12121a] border border-gray-600 text-black p-2 w-full rounded focus:ring-2 focus:ring-[#12c2e9]"
-                       data-qa="search-input">
-                <button type="submit" class="bg-[#12c2e9] hover:bg-[#0b93d5] text-yellow-300  font-bold py-2 px-4 rounded transition-colors"
-                        data-qa="search-button">Cercar</button>
-            </form>
-
-            <!-- Tabla de usuarios -->
-            <div class="overflow-x-auto">
-                <table class="w-full bg-[#12121a] border border-gray-700 rounded-lg overflow-hidden text-left">
-                    <thead class="bg-[#1a1a2e] text-[#12c2e9]">
-                    <tr>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Accions</th>
+        <!-- Tabla de usuarios -->
+        <div class="overflow-x-auto mt-4">
+            <table class="w-full bg-[#12121a] border border-gray-700 rounded-lg overflow-hidden text-left">
+                <thead class="bg-[#1a1a2e] text-[#12c2e9]">
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Accions</th>
+                </tr>
+                </thead>
+                <tbody id="userTable">
+                @foreach($users as $user)
+                    <tr class="border-b border-gray-700 hover:bg-[#1e1e2e] transition">
+                        <td class="user-name">
+                            @if($user->photo_url)
+                                <img src="{{ $user->photo_url }}" alt="User Photo" class="user-photo">
+                            @else
+                                <div class="user-photo bg-gray-500 flex items-center justify-center">
+                                    <span class="text-white">No Image</span>
+                                </div>
+                            @endif
+                            {{ $user->name }}
+                        </td>
+                        <td class="px-4 py-3 text-[#e6e6fa]">{{ $user->email }}</td>
+                        <td class="px-4 py-3">
+                            <a href="{{ route('users.show', $user->id) }}" class="bg-[#c471ed] hover:bg-[#a45bbf] text-yellow-300 font-bold py-2 px-4 rounded transition-colors" data-qa="user-details-link">Informació Usuari</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($users as $user)
-                        <tr class="border-b border-gray-700 hover:bg-[#1e1e2e] transition">
-                            <td class="user-name">
-                                @if($user->photo_url)
-                                    <img src="{{ $user->photo_url }}" alt="User Photo" class="user-photo">
-                                @else
-                                    <div class="user-photo bg-gray-500 flex items-center justify-center">
-                                        <span class="text-white">No Image</span>
-                                    </div>
-                                @endif
-                                {{ $user->name }}
-                            </td>
-                            <td class="px-4 py-3 text-[#e6e6fa]">{{ $user->email }}</td>
-                            <td class="px-4 py-3">
-                                <a href="{{ route('users.show', $user->id) }}" class="bg-[#c471ed] hover:bg-[#a45bbf] text-yellow-300 font-bold py-2 px-4 rounded transition-colors"
-                                   data-qa="user-details-link">Informació Usuari</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                @endforeach
+                </tbody>
+            </table>
         </div>
-    @endsection
+    </div>
+
+    <script>
+        document.getElementById('search').addEventListener('keyup', function() {
+            var searchValue = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#userTable tr');
+
+            rows.forEach(function(row) {
+                var name = row.querySelector('.user-name').textContent.toLowerCase();
+                var email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+                if (name.includes(searchValue) || email.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+@endsection

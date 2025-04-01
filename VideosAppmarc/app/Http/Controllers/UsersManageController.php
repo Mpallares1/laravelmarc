@@ -3,18 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersManageController extends Controller
 {
     /**
      * Llista d'usuaris.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $query = User::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%')
+                ->orWhere('email', 'like', '%' . $request->input('search') . '%');
+        }
+
+        $users = $query->get();
         return view('users.manage.index', compact('users'));
     }
 
@@ -23,7 +32,9 @@ class UsersManageController extends Controller
      */
     public function create()
     {
-        return view('users.manage.create');
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.manage.create', compact('roles', 'permissions'));
     }
 
     /**
@@ -32,21 +43,37 @@ class UsersManageController extends Controller
     public function store(Request $request)
     {
         // Validate the form data
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'roles' => 'array',
+            'permissions' => 'array',
         ]);
 
         // Create a new user
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
         ]);
 
+        // Assign a default team
+        $team = Team::create(['name' => $user->name . "'s Team", 'user_id' => $user->id]);
+        $user->team_id = $team->id;
+        $user->save();
+
+        // Assign roles and permissions
+        if (isset($validatedData['roles'])) {
+            $user->syncRoles($validatedData['roles']);
+        }
+
+        if (isset($validatedData['permissions'])) {
+            $user->syncPermissions($validatedData['permissions']);
+        }
+
         // Redirect to the manage users page with a success message
-        return redirect()->route('users.manage.index');
+        return redirect()->route('users.manage.index')->with('success', 'User created successfully.');
     }
 
     /**
@@ -55,7 +82,9 @@ class UsersManageController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('users.manage.edit', compact('user'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.manage.edit', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -63,27 +92,32 @@ class UsersManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
+            'roles' => 'array',
+            'permissions' => 'array',
         ]);
 
-
         $user = User::findOrFail($id);
-
-
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
-
 
         if (!empty($validatedData['password'])) {
             $user->password = Hash::make($validatedData['password']);
         }
 
-
         $user->save();
+
+        // Assign roles and permissions
+        if (isset($validatedData['roles'])) {
+            $user->syncRoles($validatedData['roles']);
+        }
+
+        if (isset($validatedData['permissions'])) {
+            $user->syncPermissions($validatedData['permissions']);
+        }
 
         // Redirect to the manage users page with a success message
         return redirect()->route('users.manage.index');

@@ -130,6 +130,22 @@
                 <label for="password_confirmation" data-qa="label-password-confirmation" class="block text-white">Confirmar contrasenya</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-password-confirmation" required>
             </div>
+            <div class="mb-4">
+                <label for="roles" data-qa="label-roles" class="block text-white">Rols</label>
+                <select name="roles[]" id="roles" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-roles" multiple>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="permissions" data-qa="label-permissions" class="block text-white">Permissos</label>
+                <select name="permissions[]" id="permissions" class="form-control border border-gray-300 text-black p-2 w-full" data-qa="input-permissions" multiple>
+                    @foreach($permissions as $permission)
+                        <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button type="submit" class="text-white font-bold py-2 px-4 rounded" data-qa="button-submit">Crear</button>
         </form>
     </div>
