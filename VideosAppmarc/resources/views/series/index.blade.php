@@ -132,10 +132,7 @@
     <div class="container">
         <h1>All Series</h1>
         <div class="flex justify-center mb-4">
-            <form action="{{ route('series.index') }}" method="GET" class="w-full max-w-sm">
-                <input type="text" name="search" placeholder="Search series..." class="form-control border border-gray-300 text-black p-2 w-full" value="{{ request('search') }}">
-                <button type="submit" class="btn-create mt-2">Search</button>
-            </form>
+            <input type="text" id="search" placeholder="Search series..." class="form-control border border-gray-300 text-black p-2 w-full">
         </div>
         <div class="flex justify-center">
             <table>
@@ -146,7 +143,7 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="seriesTable">
                 @foreach($series as $serie)
                     <tr>
                         <td class="series-title">
@@ -170,4 +167,22 @@
         </div>
         <a href="{{ url()->previous() }}" class="btn-back">Volver Atrás</a>
     </div>
+
+    <script>
+        document.getElementById('search').addEventListener('keyup', function() {
+            var searchValue = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#seriesTable tr');
+
+            rows.forEach(function(row) {
+                var title = row.querySelector('.series-title').textContent.toLowerCase();
+                var description = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+                if (title.includes(searchValue) || description.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 @endsection
