@@ -7,6 +7,9 @@ use App\Http\Controllers\UsersManageController;
 use App\Http\Controllers\VideosManageController;
 use App\Http\Controllers\VideosController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotificationsController;
+
+
 
 Route::get('/', [VideosController::class, 'index'])->name('home');
 
@@ -45,6 +48,16 @@ Route::middleware([
         Route::put('/series/manage/{id}', [SeriesManageController::class, 'update'])->name('series.manage.update');
         Route::delete('/series/manage/{id}', [SeriesManageController::class, 'destroy'])->name('series.manage.destroy');
     });
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/series/create', [SeriesController::class, 'create'])->name('series.create');
+        Route::post('/series', [SeriesController::class, 'store'])->name('series.store');
+        Route::post('/series/{series}/videos', [SeriesController::class, 'addVideo'])->name('series.addVideo');
+    });
+
+
+    Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications.index');
+
     Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
     Route::get('/series/{id}', [SeriesController::class, 'show'])->name('series.show');
 

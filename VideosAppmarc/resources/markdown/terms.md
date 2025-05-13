@@ -228,3 +228,31 @@ El projecte VideosApp és una aplicació web dissenyada per gestionar i visualit
 **S’ha de poder navegar entre pàgines**.
 **Afegir a resources/markdown/terms** el que heu fet al sprint.
 **Comprovar en Larastan** tots els fitxers que heu creat.
+
+
+## Sprint 7
+**Correcció d'errors**: Corregir els errors detectats en el Sprint 6.
+
+**Notificacions**:
+- S'ha creat la ruta `/notifications` al fitxer `routes/web.php` per accedir a les notificacions.
+- S'ha creat el controlador `NotificationsController` amb la funció `index()` per mostrar la vista de notificacions.
+- S'ha creat la vista `resources/views/notifications/index.blade.php` per mostrar les notificacions.
+
+**Events i Notificacions**:
+- S'ha creat l'event `VideoCreated` per gestionar la creació de vídeos.
+- S'ha creat la notificació `VideoCreatedNotification` per enviar notificacions quan es crea un vídeo.
+
+**Tests**:
+- S'ha creat el test `VideoNotificationsTest` a `tests/Feature/` amb les funcions:
+    - `test_video_created_event_is_dispatched`: Verifica que l'event `VideoCreated` es dispara quan es crea un vídeo.
+    - `test_push_notification_is_sent_when_video_is_created`: Verifica que es genera una notificació quan es crea un vídeo.
+
+**Helpers**:
+- S'han revisat i actualitzat els helpers per gestionar les notificacions.
+
+**Rutes**:
+- S'han revisat i actualitzat les rutes per incloure la gestió de notificacions.
+
+**Afegir a resources/markdown/terms**: Afegir el que s'ha fet al Sprint 7 a `resources/markdown/terms`.
+
+**Comprovar en Larastan**: Comprovar en Larastan tots els fitxers creats o modificats.

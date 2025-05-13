@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\VideoCreated;
 
 class VideosController extends Controller
 {
@@ -21,7 +22,8 @@ class VideosController extends Controller
      * Show the form for creating a new video.
      */
     public function create()
-    {         $this->authorize('create', Video::class);
+    {
+        $this->authorize('create', Video::class);
 
         return view('videos.create');
     }
@@ -30,62 +32,55 @@ class VideosController extends Controller
      * Store a newly created video in storage.
      */
     public function store(Request $request)
-    {        $this->authorize('create', Video::class);
+    {
+        $this->authorize('create', Video::class);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
             'series_id' => 'nullable|exists:series,id',
         ]);
 
-        $video = new Video([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'url' => $request->input('url'),
-            'user_id' => Auth::id(),
-            'series_id' => $request->input('series_id'),
-        ]);
+        $video = new Video(array_merge($validated, ['user_id' => Auth::id()]));
 
         if ($video->save()) {
+            event(new VideoCreated($video));
             return redirect()->route('videos.index')->with('success', 'Video created successfully.');
-        } else {
-            return redirect()->route('videos.create')->with('error', 'Failed to create video.');
         }
+
+        return redirect()->route('videos.create')->with('error', 'Failed to create video.');
     }
 
     /**
      * Display the specified video.
      */
-    public function show($id)
+    public function show(Video $video)
     {
-        $video = Video::findOrFail($id);
         return view('videos.show', compact('video'));
     }
 
     /**
      * Show the form for editing the specified video.
      */
-    public function edit($id)
+    public function edit(Video $video)
     {
-        $video = Video::findOrFail($id);
         return view('videos.edit', compact('video'));
     }
 
     /**
      * Update the specified video in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Video $video)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
             'series_id' => 'nullable|exists:series,id',
         ]);
 
-        $video = Video::findOrFail($id);
-        $video->update($request->all());
+        $video->update($validated);
 
         return redirect()->route('videos.index')->with('success', 'Video updated successfully.');
     }
@@ -93,9 +88,8 @@ class VideosController extends Controller
     /**
      * Remove the specified video from storage.
      */
-    public function destroy($id)
+    public function destroy(Video $video)
     {
-        $video = Video::findOrFail($id);
         $video->delete();
 
         return redirect()->route('videos.index')->with('success', 'Video deleted successfully.');
@@ -104,14 +98,28 @@ class VideosController extends Controller
     /**
      * Display a list of users who have tested the video.
      */
-    public function testedBy($id)
+    public function testedBy(Video $video)
     {
-        $video = Video::findOrFail($id);
         $users = $video->testedByUsers;
+
+        if ($users->isEmpty()) {
+            return response()->json(['message' => 'No users have tested this video.'], 404);
+        }
+
         return response()->json($users);
     }
 
-    private function authorize(string $string, string $class)
+    /**
+     * Authorize the action for the given resource.
+     *
+     * @param string $action
+     * @param string $model
+     * @return void
+     */
+    private function authorize(string $action, string $model)
     {
+        if (!Auth::user()->can($action, $model)) {
+            abort(403, 'Unauthorized action.');
+        }
     }
 }

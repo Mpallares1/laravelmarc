@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class VideosManageController extends Controller
 {
     /**
-     * Llista de videos
+     * List all videos.
      */
     public function index()
     {
@@ -19,25 +19,25 @@ class VideosManageController extends Controller
         }
 
         if (Auth::user()->can('videosManager')) {
-            $videos = Video::all();
+            $videos = Video::with('series')->get(); // Eager load 'series' relationship
             return view('videos.manage.index', compact('videos'));
         }
 
-        // Si l'usuari no te permisos, dona l'error 403
+        // If the user lacks permissions, return a 403 error
         abort(403);
     }
 
     /**
-     * Mostrar un video en concret
+     * Show a specific video.
      */
     public function show($id)
     {
-        $video = Video::findOrFail($id);
+        $video = Video::with('series')->findOrFail($id); // Eager load 'series'
         return view('videos.show', compact('video'));
     }
 
     /**
-     * Guardar un video
+     * Store a new video.
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
@@ -58,13 +58,13 @@ class VideosManageController extends Controller
 
         if ($video->save()) {
             return redirect()->route('videos.manage.index')->with('success', 'Video created successfully.');
-        } else {
-            return redirect()->route('videos.manage.create')->with('error', 'Failed to create video.');
         }
+
+        return redirect()->route('videos.manage.create')->with('error', 'Failed to create video.');
     }
 
     /**
-     * Editar un video
+     * Edit a video.
      */
     public function edit($id)
     {
@@ -74,32 +74,32 @@ class VideosManageController extends Controller
     }
 
     /**
-     * Actualitzar el video
+     * Update a video.
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
             'url' => 'required|url',
             'series_id' => 'nullable|exists:series,id',
         ]);
 
         $video = Video::findOrFail($id);
-        $video->update($request->all());
+        $video->update($request->only(['title', 'description', 'url', 'series_id']));
 
-        return redirect()->route('videos.manage.index');
+        return redirect()->route('videos.manage.index')->with('success', 'Video updated successfully.');
     }
 
     /**
-     * Eliminar un video
+     * Delete a video.
      */
     public function destroy($id)
     {
         $video = Video::findOrFail($id);
         $video->delete();
 
-        return redirect()->route('videos.manage.index');
+        return redirect()->route('videos.manage.index')->with('success', 'Video deleted successfully.');
     }
 
     /**
@@ -111,9 +111,12 @@ class VideosManageController extends Controller
         return view('videos.manage.create', compact('series'));
     }
 
+    /**
+     * Get users who tested a video.
+     */
     public function testedBy($id)
     {
-        $video = Video::findOrFail($id);
+        $video = Video::with('testedByUsers')->findOrFail($id); // Eager load 'testedByUsers'
         $users = $video->testedByUsers;
         return response()->json($users);
     }

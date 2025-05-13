@@ -1,7 +1,8 @@
 <header>
     <div class="logo">Marc Video</div>
+    <button class="navbar-toggler" onclick="toggleNavbar()">☰</button>
     <nav class="navbar">
-        <ul>
+        <ul id="navbar-menu">
             <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ route('videos.index') }}">Videos</a></li>
             <li><a href="{{ route('users.index') }}">Usuaris</a></li>
@@ -25,7 +26,6 @@
             @endauth
         </ul>
     </nav>
-
 </header>
 
 <style>
@@ -59,14 +59,71 @@
         text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00;
     }
 
+    .navbar {
+        display: flex;
+    }
+
+    .navbar ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 15px;
+    }
+
+    .navbar ul li {
+        margin: 0;
+    }
+
     nav a {
         color: #fff;
         text-decoration: none;
-        margin: 0 15px;
         transition: color 0.3s ease;
     }
 
     nav a:hover {
         color: #ffff00;
     }
+
+    .navbar-toggler {
+        display: none;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar ul {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .navbar-toggler {
+            display: block;
+        }
+
+        .navbar.show {
+            display: flex;
+        }
+    }
 </style>
+
+<script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('.navbar');
+        navbar.classList.toggle('show');
+    }
+</script>

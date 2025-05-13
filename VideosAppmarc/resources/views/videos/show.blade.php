@@ -33,8 +33,21 @@
                         <span class="action-icon">↗</span>
                         <span>Original Source</span>
                     </a>
+                    @if(auth()->check() && auth()->id() === $video->user_id)
+                        <a href="{{ route('videos.edit', $video->id) }}" class="action-link">
+                            <span class="action-icon">✎</span>
+                            <span>Edit</span>
+                        </a>
+                        <form action="{{ route('videos.destroy', $video->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="action-link" style="background:none; border:none; color:inherit; cursor:pointer;">
+                                <span class="action-icon">🗑</span>
+                                <span>Delete</span>
+                            </button>
+                        </form>
+                    @endif
                 </div>
-            </div>
 
             <div class="video-description-container">
                 <div class="description-header">About this video</div>

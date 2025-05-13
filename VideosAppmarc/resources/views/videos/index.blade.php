@@ -76,7 +76,6 @@
             margin-bottom: 2rem;
         }
     </style>
-
     <h1>All Videos</h1>
     <div class="video-grid">
         @foreach($videos as $video)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Series;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller
@@ -43,7 +44,11 @@ class SeriesController extends Controller
             'description' => 'required|string',
         ]);
 
-        Series::create($request->all());
+        Series::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => auth()->id(),
+        ]);
 
         return redirect()->route('series.index');
     }
@@ -79,5 +84,25 @@ class SeriesController extends Controller
         $series->delete();
 
         return redirect()->route('series.index');
+    }
+
+    /**
+     * Agregar un video a una serie existente.
+     */
+    public function addVideo(Request $request, Series $series)
+    {
+        $request->validate([
+            'video_id' => 'required|exists:videos,id',
+        ]);
+
+        // Ensure the series belongs to the authenticated user
+        if ($series->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $video = Video::find($request->video_id);
+        $series->videos()->attach($video);
+
+        return redirect()->route('series.show', $series->id)->with('success', 'Video added to series successfully.');
     }
 }

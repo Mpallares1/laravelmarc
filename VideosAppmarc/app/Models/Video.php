@@ -12,22 +12,27 @@ class Video extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'url', 'user_id', 'series_id'
+        'title', 'description', 'url', 'user_id'
     ];
 
     protected $dates = ['published_at'];
 
     /**
-     * Relación inversa 1:N con el modelo Series.
+     * Relación N:M con el modelo Series.
      */
     public function series()
     {
-        return $this->belongsTo(Series::class);
+        return $this->belongsToMany(Series::class, 'series_video');
     }
+
+    /**
+     * Relación inversa 1:N con el modelo User.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     /**
      * Obtener la fecha de publicación formateada.
      */

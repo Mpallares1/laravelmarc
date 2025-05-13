@@ -119,8 +119,7 @@
                     <tr>
                         <td>{{ $video->title }}</td>
                         <td>{{ $video->description }}</td>
-                        <td>{{ $video->series ? $video->series->title : 'No Series' }}</td>
-
+                        <td>{{ optional($video->series)->title ?? 'No Series' }}</td> <!-- Use optional() to avoid errors -->
                         <td>
                             <a href="{{ route('videos.manage.edit', $video->id) }}" class="btn-edit">Edit</a>
                             <form action="{{ route('videos.manage.destroy', $video->id) }}" method="POST" style="display:inline;">
