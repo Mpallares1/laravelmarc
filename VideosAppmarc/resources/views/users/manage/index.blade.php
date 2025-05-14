@@ -104,33 +104,96 @@
         .btn-delete:hover {
             background: #d62839;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                display: block;
+                text-align: left;
+                padding: 8px 4px;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #c471ed;
+                display: inline-block;
+                width: 100px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                display: block;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
     </style>
 
-    <h1>Administrar usuaris</h1>
-    <a href="{{ route('users.manage.create') }}" class="btn-create">Crear nou usuari</a>
-    <table>
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Accions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($users as $user)
+    <div class="container">
+        <h1>Administrar usuaris</h1>
+        <a href="{{ route('users.manage.create') }}" class="btn-create">Crear nou usuari</a>
+        <table>
+            <thead>
             <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <a href="{{ route('users.manage.edit', $user->id) }}" class="btn-edit">Editar</a>
-                    <form action="{{ route('users.manage.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-delete">Delete</button>
-                    </form>
-                </td>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Accions</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach ($users as $user)
+                <tr>
+                    <td data-label="Nom">{{ $user->name }}</td>
+                    <td data-label="Email">{{ $user->email }}</td>
+                    <td data-label="Accions">
+                        <a href="{{ route('users.manage.edit', $user->id) }}" class="btn-edit">Editar</a>
+                        <form action="{{ route('users.manage.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
 @endsection

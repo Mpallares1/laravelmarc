@@ -26,7 +26,7 @@
 
         h1 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             background: linear-gradient(90deg, #c471ed, #f64f59);
             -webkit-background-clip: text;
@@ -69,34 +69,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-create {
-            display: inline-block;
-            background: #12c2e9;
-            color: #080810;
-        }
-
-        .btn-create:hover {
-            background: #0b93d5;
-        }
-
-        .btn-edit {
-            background: #f4a261;
-            color: #080810;
-        }
-
-        .btn-edit:hover {
-            background: #e76f51;
-        }
-
-        .btn-delete {
-            background: #e63946;
-            color: #fff;
-        }
-
-        .btn-delete:hover {
-            background: #d62839;
-        }
-
         .btn-back {
             display: inline-block;
             background: #c471ed;
@@ -127,14 +99,37 @@
             display: flex;
             align-items: center;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .btn-back {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
     </style>
 
     <div class="container">
         <h1>All Series</h1>
         <div class="flex justify-center mb-4">
-            <input type="text" id="search" placeholder="Search series..." class="form-control border border-gray-300 text-black p-2 w-full">
+            <input type="text" id="search" placeholder="Search series..." class="form-control border border-gray-300 text-black p-2 w-full sm:w-1/2">
         </div>
-        <div class="flex justify-center">
+        <div class="overflow-x-auto">
             <table>
                 <thead>
                 <tr>

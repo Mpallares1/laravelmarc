@@ -64,7 +64,7 @@ Route::middleware([
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
 });
-
+Route::resource('videos', VideoController::class);
 Route::get('/videos', [VideosController::class, 'index'])->name('videos.index');
 Route::get('/videos/{id}', [VideosController::class, 'show'])->name('videos.show');
 

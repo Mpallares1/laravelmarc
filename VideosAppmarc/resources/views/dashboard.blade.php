@@ -15,6 +15,16 @@
             line-height: 1.6;
         }
 
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+        }
+
         .container {
             max-width: 900px;
             margin: 3rem auto;
@@ -35,80 +45,54 @@
             margin-bottom: 2rem;
         }
 
-        table {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            overflow: hidden;
-            border-collapse: collapse;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
         }
 
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: left;
-        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
 
-        th {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        td {
-            color: #ffffff;
-        }
-
-        a, button {
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        a:hover, button:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-create {
-            display: inline-block;
-            background: #12c2e9;
-            color: #080810;
-        }
-
-        .btn-create:hover {
-            background: #0b93d5;
-        }
-
-        .btn-edit {
-            background: #f4a261;
-            color: #080810;
-        }
-
-        .btn-edit:hover {
-            background: #e76f51;
-        }
-
-        .btn-delete {
-            background: #e63946;
-            color: #fff;
-        }
-
-        .btn-delete:hover {
-            background: #d62839;
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
     </style>
+
     <div class="py-12 bg-[#080810] min-h-screen flex flex-col">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-[#0a0a14] text-[#e6e6fa] overflow-hidden shadow-xl sm:rounded-lg p-6 border border-gray-700">
 
                 <x-welcome />
 
-
-
-                <!-- Dashboard con botones de administración -->
                 <h2 class="font-semibold text-xl text-[#12c2e9] leading-tight text-center mt-6">
                     {{ __('Dashboard') }}
                 </h2>
+
+                <div class="grid mt-6">
+                    <x-card title="Sèries" description="Explora totes les sèries disponibles">
+                        <a href="{{ route('series.index') }}" class="text-blue-400 hover:underline">Veure més</a>
+                    </x-card>
+                    <x-card title="Usuaris" description="Gestiona els usuaris de la plataforma">
+                        <a href="{{ route('users.index') }}" class="text-blue-400 hover:underline">Veure perfil</a>
+                    </x-card>
+                    <x-card title="Vídeos" description="Descobreix els vídeos disponibles">
+                        <a href="{{ route('videos.index') }}" class="text-blue-400 hover:underline">Reproduir</a>
+                    </x-card>
+                </div>
+
+                <div class="overlay" id="modal-overlay" style="display: none;"></div>
+
+                <div class="modal bg-white rounded-lg shadow-lg p-6 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-60" id="modal" style="display: none;">
+                    <h2 class="text-xl font-bold">Títol del Modal</h2>
+                    <p class="text-gray-600">Contingut del modal aquí.</p>
+                    <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onclick="closeModal()">Tanca</button>
+                </div>
 
                 <div class="flex justify-center space-x-4 mt-6">
                     @can('manage-videos')
@@ -133,4 +117,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('modal-overlay').style.display = 'block';
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
 @endsection

@@ -24,8 +24,16 @@
 
             <div class="video-metadata">
                 <div class="metadata-item">
-                    <p> Creat: <span class="metadata-date">{{ $video->created_at->format('F d, Y') }}</span></p>
-                    <p>  Actualitzat: <span class="metadata-date">{{ $video->updated_at->format('F d, Y')}}</span></p>
+                    <p> Creat:
+                        <span class="metadata-date">
+                             {{ $video->created_at ? $video->created_at->format('F d, Y') : 'N/A' }}
+                        </span>
+                    </p>
+                    <p> Actualitzat:
+                        <span class="metadata-date">
+                             {{ $video->updated_at ? $video->updated_at->format('F d, Y') : 'N/A' }}
+                        </span>
+                    </p>
                 </div>
 
                 <div class="metadata-actions">

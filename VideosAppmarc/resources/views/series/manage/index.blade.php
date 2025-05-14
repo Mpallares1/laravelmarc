@@ -105,8 +105,66 @@
             background: #d62839;
         }
 
-    </style>
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
 
+            h1 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                display: block;
+                text-align: left;
+                padding: 8px 4px;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #c471ed;
+                display: inline-block;
+                width: 100px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                display: block;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
+    </style>
 
     @can('manageseries')
         <div class="container">
@@ -126,10 +184,10 @@
                 <tbody>
                 @foreach($series as $serie)
                     <tr>
-                        <td>{{ $serie->title }}</td>
-                        <td>{{ $serie->description }}</td>
-                        <td>{{ $serie->user_name }}</td>
-                        <td>
+                        <td data-label="Title">{{ $serie->title }}</td>
+                        <td data-label="Description">{{ $serie->description }}</td>
+                        <td data-label="User Name">{{ $serie->user_name }}</td>
+                        <td data-label="Actions">
                             <a href="{{ route('series.manage.edit', $serie->id) }}" class="btn-edit">Editar</a>
                             <form action="{{ route('series.manage.destroy', $serie->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta serie?');">
                                 @csrf

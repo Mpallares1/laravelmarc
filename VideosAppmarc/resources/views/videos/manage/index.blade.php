@@ -97,6 +97,66 @@
         .btn-delete:hover {
             background: #d62839;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                display: block;
+                text-align: left;
+                padding: 8px 4px;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #c471ed;
+                display: inline-block;
+                width: 100px;
+            }
+
+            .btn-create, .btn-edit, .btn-delete {
+                display: block;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
     </style>
 
     <div class="container">
@@ -117,10 +177,10 @@
                 <tbody>
                 @foreach($videos as $video)
                     <tr>
-                        <td>{{ $video->title }}</td>
-                        <td>{{ $video->description }}</td>
-                        <td>{{ optional($video->series)->title ?? 'No Series' }}</td> <!-- Use optional() to avoid errors -->
-                        <td>
+                        <td data-label="Title">{{ $video->title }}</td>
+                        <td data-label="Description">{{ $video->description }}</td>
+                        <td data-label="Series">{{ optional($video->series)->title ?? 'No Series' }}</td>
+                        <td data-label="Actions">
                             <a href="{{ route('videos.manage.edit', $video->id) }}" class="btn-edit">Edit</a>
                             <form action="{{ route('videos.manage.destroy', $video->id) }}" method="POST" style="display:inline;">
                                 @csrf
